@@ -1,6 +1,6 @@
 {
-  "name": "@4geeksacademy/react-flux-dash",
-  "version": "3.0.2",
+  "name": "react-flux-dash",
+  "version": "1.0.",
   "description": "Helping Students with React + Flux development",
   "main": "dist/react-flux-dash.js",
   "scripts": {
@@ -9,16 +9,16 @@
     "build:dev": "webpack --config webpack.config.js --mode development",
     "test": "jest"
   },
-  "homepage": "https://github.com/4GeeksAcademy/react-flux-dash",
+  "homepage": "https://github.com/cobuildlab/react-flux-dash",
   "bugs": {
-    "url": "https://github.com/4GeeksAcademy/react-flux-dash/issues"
+    "url": "https://github.com/cobuildlab/react-flux-dash/issues"
   },
   "babel": {
     "presets": [
       "env"
     ]
   },
-  "author": "Alejandro Sanchez",
+  "author": "Angel Lacret",
   "license": "GPL-3.0",
   "bin": {
     "fluxify": "bin/fluxify.js"
