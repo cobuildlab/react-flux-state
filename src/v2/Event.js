@@ -29,14 +29,14 @@ class Event {
         transformers.forEach(transformer => {
             if (typeof(transformer) !== "function")
                 throw new Error("All the transformers must be functions");
-
-            const testResult = transformer({});
-
-            if (typeof(testResult) === "undefined")
-                throw new Error(`All the transformers must return a mutated state object and not 'undefined': ${transformer}`);
-
-            if (testResult === null)
-                throw new Error(`All the transformers must return a mutated state object and not 'null': ${transformer}`);
+            // To be removed in version 4
+            // const testResult = transformer({});
+            //
+            // if (typeof(testResult) === "undefined")
+            //     throw new Error(`All the transformers must return a mutated state object and not 'undefined': ${transformer}`);
+            //
+            // if (testResult === null)
+            //     throw new Error(`All the transformers must return a mutated state object and not 'null': ${transformer}`);
         });
 
         this.transformers = transformers;

@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react", "flux"], factory);
 	else if(typeof exports === 'object')
-		exports["react-flux-dash"] = factory(require("react"), require("flux"));
+		exports["flux-state"] = factory(require("react"), require("flux"));
 	else
-		root["react-flux-dash"] = factory(root["react"], root["flux"]);
+		root["flux-state"] = factory(root["react"], root["flux"]);
 })(window, function(__WEBPACK_EXTERNAL_MODULE_react__, __WEBPACK_EXTERNAL_MODULE_flux__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -1710,12 +1710,14 @@ var Event = function () {
 
         transformers.forEach(function (transformer) {
             if (typeof transformer !== "function") throw new Error("All the transformers must be functions");
-
-            var testResult = transformer({});
-
-            if (typeof testResult === "undefined") throw new Error("All the transformers must return a mutated state object and not 'undefined': " + transformer);
-
-            if (testResult === null) throw new Error("All the transformers must return a mutated state object and not 'null': " + transformer);
+            // To be removed in version 4
+            // const testResult = transformer({});
+            //
+            // if (typeof(testResult) === "undefined")
+            //     throw new Error(`All the transformers must return a mutated state object and not 'undefined': ${transformer}`);
+            //
+            // if (testResult === null)
+            //     throw new Error(`All the transformers must return a mutated state object and not 'null': ${transformer}`);
         });
 
         this.transformers = transformers;
@@ -2059,4 +2061,4 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_react__;
 
 /******/ });
 });
-//# sourceMappingURL=react-flux-dash.js.map
+//# sourceMappingURL=flux-state.js.map

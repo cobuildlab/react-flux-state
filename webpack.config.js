@@ -18,9 +18,9 @@ module.exports = {
     extensions: ['*', '.js']
   },
   output: {
-    path: path.resolve(__dirname, "dist"), 
-    filename: 'react-flux-dash.js',
-    library: 'react-flux-dash',
+    path: path.resolve(__dirname, "dist"),
+    filename: 'flux-state.js',
+    library: 'flux-state',
     libraryTarget: 'umd'
   },
   externals: {
