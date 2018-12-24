@@ -1,34 +1,20 @@
 
 
-# React Flux Dash
-[![Version](https://img.shields.io/npm/v/@4geeksacademy/react-flux-dash.svg)](https://npmjs.org/package/react-flux-dash)
-[![Downloads/week](https://img.shields.io/npm/dw/@4geeksacademy/react-flux-dash.svg)](https://npmjs.org/package/react-flux-dash)
-[![License](https://img.shields.io/npm/l/@4geeksacademy/react-flux-dash.svg)](https://github.com/Techniv/Licenses-for-GitHub/tree/master/GNU-GPL)
+# React Flux State
 
-Learning flux is hard, using it is cumbersome. Hopefully it will become easier with this library!
+React bindings to [flux-state](https://github.com/cobuildlab/flux-state) Library
 
-Also, learning redux is harder, so this is state library that make your life easier
-
-Dash are a series of coding guidelines and principles to code in a easy, conventional, clean and expressive way.
-
-The principles and guidelines supporting this Library are:
-
-1) Define a Store should be an easy step, keeping the power of a "Single source of thruth"
-2) Data and event propagation should be done in a declarative way
-3) Views should be developer in a reactive way.
-4) Multiple Stores are allowed for better organization
-5) We keep flux as it should be unidirectaional, so there is no coupling between the Action and the Views, neither between the Actions and the Store, neither between the Store and the View
-6) The Store state is implicit: The last value of all the events on the Store.
+This package ads a `subscribe` method to the standard React Component to avoid the unsubscribe boilerplate from the library, AKA: it does the unsubscribe for you
 
 ## Installation
 
 1. Run on your terminal the following command:
 ```sh
-$ npm install @4geeksacademy/react-flux-dash --save
+$ npm i --save-dev react-flux-state
 ```
 2. To import the library anywhere you would like to use it:
 ```js
-import Flux from '@4geeksacademy/react-flux-dash';
+import View from 'react-flux-state';
 ```
 
 ## Let's build a Flux Workflow for authentication
@@ -36,20 +22,25 @@ import Flux from '@4geeksacademy/react-flux-dash';
 ### 1) First, declare your Store
 
 ```js
-import Flux from '@4geeksacademy/react-flux-dash';
+import Flux from 'flux-state';
+
+// Declare the events as constants. They are exported for reference in the subscriptions
+export const LOGOUT = 'onLogout';
+export const LOGIN = 'onLogin';
+
 
 class SessionStore extends Flux.DashStore{
     constructor(){
         super();
         // Declare an Event
-        this.addEvent("onLogout");
+        this.addEvent(LOGOUT);
         // Or Declare an event with some imutable transformation logic
-        this.addEvent("login", (state) => {
+        this.addEvent(LOGIN, (state) => {
             // Do something with the data before propagating the Event
             return Object.assign(state, {"key": "value"})
         });
         // Or Declare an event with some plain transformation logic
-        this.addEvent("login", (state) => {
+        this.addEvent(LOGIN, (state) => {
             state.some_other_property = "Some other Data";
             return Object.assign(state, {"key": "value"})
         });
@@ -62,32 +53,26 @@ export default new SessionStore();
 
 ```js
 import React from 'react';
-import SessionStore from '/path/to/store';
+import SessionStore, {LOGIN, LOGOUT} from '/path/to/store';
+import View from 'react-flux-state';
 
-class View extends React.Component {
+class View extends View {
       constructor(){
           super();
       }
-
       componentDidMount() {
-          const me = this;
-          this.loginSubscription = SessionStore.subscribe("login", (state) => {
+          this.subscribe(SessionStore, LOGIN, (state) => {
               // Do something usefull with the Event Data
-              me.userName = state.user.name;
+              const userName = state.user.name;
+              this.setState({userName});
           });
           // Register some method
-          this.logoutSubscription = SessionStore.subscribe("logout", this.logOutEvent().bind(this));
+          this.subscribe(SessionStore, LOGOUT, this.logOutEvent);
       }
 
-      logOutEvent(state){
+      logOutEvent = (state) => {
         //DO something with the state or the state of the Store
         const storeState = SessionStore.getState()
-      }
-
-      componentWillUnMount() {
-          // Don't forget to release the subscription
-          this.loginSubscription.unsubscribe();
-          this.logoutSubscription.unsubscribe();
       }
   }
 
@@ -96,68 +81,19 @@ class View extends React.Component {
 ### 3) Define some action that will trigger the event
 
 ```js
-import Flux from '@4geeksacademy/react-flux-dash';
+import Flux from 'flux-state';
+import {LOGIN, LOGOUT} from '/path/to/store';
 
 const authenticateAction = (username, password)=> {
       // Don't forget to Validate the data ex: username !=== undefined
       let dataToSave = {
           authenticated: true
       }
-      Flux.dispatchEvent('login', dataToSave)
+      Flux.dispatchEvent(LOGIN, dataToSave)
 }
 
 export default {authenticateAction};
 ```
-
-### 4) Glue all together using the Action from the View
-
-
-```js
-import React from 'react';
-import SessionStore from '/path/to/store';
-import {authenticateAction} from 'path/to/action';
-
-class View extends React.Component {
-      constructor(){
-          super();
-      }
-
-      componentDidMount() {
-          const me = this;
-          this.loginSubscription = SessionStore.subscribe("login", (state) => {
-              // Do something usefull with the Event Data
-              me.userName = state.user.name;
-          });
-          // Register some method
-          this.logoutSubscription = SessionStore.subscribe("logout", this.logOutEvent().bind(this));
-      }
-
-      logOutEvent(state){
-        //DO something with the state or the state of the Store
-        const storeState = SessionStore.getState()
-      }
-
-      componentWillUnMount() {
-          // Don't forget to release the subscription
-          this.loginSubscription.unsubscribe();
-          this.logoutSubscription.unsubscribe();
-      }
-
-      login(){
-        authenticateAction(this.state.username, this.state.password);
-      }
-
-  }
-
-```
-ChangeLog:
-
-#### v 3.0.0
-
-- Add a ```clearState``` method for the Store to set all Values to null
-- Add a parameter to the subscription, to request the last value of the Event if wanted
-- Add a Helper React View, to subscribe and unsubscribe to the Store wanted
-
 
 ## Contributors
 
