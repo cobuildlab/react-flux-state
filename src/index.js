@@ -24,7 +24,6 @@ class View extends React.Component {
      * @throws an Error if the subscriber is not a function
      */
     subscribe(store, eventName, subscriber, receiveLastValue = false) {
-        console.log("REACTFLUXSTATEVIEW:subscribe");
         const subscription = store.subscribe(eventName, subscriber, receiveLastValue);
         this.toBeSubscribed.push({store, eventName, subscriber, receiveLastValue});
         this.subscriptions.push(subscription);
@@ -32,7 +31,6 @@ class View extends React.Component {
     }
 
     componentDidMount() {
-        console.log("REACTFLUXSTATEVIEW:componentDidMount");
         if (!this.hasBeenUnmounted)
             return;
         const that = this;
@@ -44,7 +42,6 @@ class View extends React.Component {
     }
 
     componentWillUnmount() {
-        console.log("REACTFLUXSTATEVIEW:componentWillUnmount");
         this.subscriptions.forEach(subscription => {
             subscription.unsubscribe();
         });
