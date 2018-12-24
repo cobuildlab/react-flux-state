@@ -1,11 +1,11 @@
 {
   "name": "react-flux-state",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A React extension for flux-state",
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack --config webpack.config.js --mode production",
     "build": "webpack --config webpack.config.js --mode production",
+    "start": "webpack --config webpack.config.js --mode production",
     "build:dev": "webpack --config webpack.config.js --mode development",
     "test": "jest"
   },
