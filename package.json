@@ -1,7 +1,7 @@
 {
-  "name": "react-flux-state",
-  "version": "1.1.4",
-  "description": "A React extension for flux-state",
+  "name": "@cobuildlab/react-flux-state",
+  "version": "1.0.0",
+  "description": "React bindings for flux-state",
   "main": "src/index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js --mode production",
@@ -29,7 +29,8 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
-    "flux-state": "^4.1.0"
+    "@cobuildlab/flux-state": "1.1.4",
+    "react": "^16.8.6"
   },
   "jest": {
     "verbose": true,

@@ -10,11 +10,11 @@ This package ads a `subscribe` method to the standard React Component to avoid t
 
 1. Run on your terminal the following command:
 ```sh
-$ npm i --save-dev react-flux-state
+$ npm i --save-dev @cobuildlab/react-flux-state
 ```
 2. To import the library anywhere you would like to use it:
 ```js
-import View from 'react-flux-state';
+import View, {useFluxStore} from '@cobuildlab/react-flux-state';
 ```
 
 ## Let's build a Flux Workflow for authentication
@@ -29,7 +29,7 @@ export const LOGOUT = 'onLogout';
 export const LOGIN = 'onLogin';
 
 
-class SessionStore extends Flux.DashStore{
+class SessionStore extends Flux.Store{
     constructor(){
         super();
         // Declare an Event
@@ -54,8 +54,9 @@ export default new SessionStore();
 ```js
 import React from 'react';
 import SessionStore, {LOGIN, LOGOUT} from '/path/to/store';
-import View from 'react-flux-state';
+import View, {useFluxStore} from 'react-flux-state';
 
+// Class Based
 class View extends View {
       constructor(){
           super();
@@ -76,6 +77,15 @@ class View extends View {
       }
   }
 
+// or Functional
+const View = (props) => {
+  // Set an Initial Value
+  const loginState = useFluxStore(SessionStore, LOGIN, null);
+  const userState = useFluxStore(SessionStore, USER);
+  return (
+    {loginState && <User user={loginState}>}
+  )
+};
 ```
 
 ### 3) Define some action that will trigger the event
@@ -94,6 +104,12 @@ const authenticateAction = (username, password)=> {
 
 export default {authenticateAction};
 ```
+## Changelog
+
+### v1.0.0:
+
+- React Hook Implementation o `useFluxStore`
+- Migration to `@cobuildlab/react-flux-store`
 
 ## Contributors
 
