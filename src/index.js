@@ -52,17 +52,21 @@ class View extends React.Component {
 
 /**
  * React Hook to use Flux State Library
- * @param store
- * @param eventName
- * @param initialValue
- * @param receiveLastValue
+ * @param store The Flux Store to which the events belongs
+ * @param eventName The event on the Flux Store
+ * @param initialValue An Initial Value for the state
+ * @param callback a function to be called when the subscription gets called
  */
-const useFluxStore = (store, eventName, initialValue = null, receiveLastValue = false) => {
+const useFluxStore = (store, eventName, initialValue = null, callback = null) => {
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
-    const handleStateChange = (state) => setValue(state);
-    const subscription = store.subscribe(eventName, handleStateChange, receiveLastValue);
+    const handleStateChange = (state) => {
+      if (callback)
+        callback(state);
+      setValue(state)
+    };
+    const subscription = store.subscribe(eventName, handleStateChange);
     return () => {
       subscription.unsubscribe();
     };

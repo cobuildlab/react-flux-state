@@ -106,9 +106,13 @@ export default {authenticateAction};
 ```
 ## Changelog
 
+### v2.0.0:
+
+- React Hook Implementation signature changed, now receives a callback to be executed when the event is triggered: `useFluxStore`
+
 ### v1.0.0:
 
-- React Hook Implementation o `useFluxStore`
+- React Hook Implementation: `useFluxStore`
 - Migration to `@cobuildlab/react-flux-store`
 
 ## Contributors
