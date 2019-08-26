@@ -97,7 +97,9 @@ import {LOGIN, LOGOUT} from '/path/to/store';
 const authenticateAction = (username, password)=> {
       // Don't forget to Validate the data ex: username !=== undefined
       let dataToSave = {
-          authenticated: true
+          authenticated: true,
+          username,
+          password,
       }
       Flux.dispatchEvent(LOGIN, dataToSave)
 }
