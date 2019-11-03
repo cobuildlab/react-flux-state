@@ -46,14 +46,15 @@ class SessionStore extends Flux.Store{
         });
     }
 }
-export default new SessionStore();
+const sessionStore = new SessionStore()
+export {sessionStore} ;
 ```
 
 ### 2) Registering with the Store changes
 
 ```js
 import React from 'react';
-import SessionStore, {LOGIN, LOGOUT} from '/path/to/store';
+import {LOGIN, LOGOUT, sessionStore } from '/path/to/store';
 import View, {useFluxStore} from 'react-flux-state';
 
 // Class Based
@@ -62,26 +63,32 @@ class View extends View {
           super();
       }
       componentDidMount() {
-          this.subscribe(SessionStore, LOGIN, (state) => {
+          this.subscribe(sessionStore , LOGIN, (state) => {
               // Do something usefull with the Event Data
               const userName = state.user.name;
               this.setState({userName});
           });
           // Register some method
-          this.subscribe(SessionStore, LOGOUT, this.logOutEvent);
+          this.subscribe(sessionStore , LOGOUT, this.logOutEvent);
       }
 
       logOutEvent = (state) => {
         //DO something with the state or the state of the Store
-        const storeState = SessionStore.getState()
+        const storeState = sessionStore .getState()
       }
   }
 
-// or Functional
+// or Functional with React Hooks
 const View = (props) => {
   // Set an Initial Value
-  const loginState = useFluxStore(SessionStore, LOGIN, null);
-  const userState = useFluxStore(SessionStore, USER);
+  const loginState = useFluxStore(sessionStore , LOGIN, null);
+  const userState = useFluxStore(sessionStore , USER);
+  
+  useSubscription(sessionStore , LOGIN_ERROR, () => {
+    // setError
+    // toast.error()
+  });
+  
   return (
     {loginState && <User user={loginState}>}
   )
@@ -95,7 +102,9 @@ import Flux from 'flux-state';
 import {LOGIN, LOGOUT} from '/path/to/store';
 
 const authenticateAction = (username, password)=> {
-      // Don't forget to Validate the data ex: username !=== undefined
+      if (username === undefined)
+        return Flux.dispatchEvent(LOGIN_ERROR);
+      
       let dataToSave = {
           authenticated: true,
           username,
@@ -107,6 +116,11 @@ const authenticateAction = (username, password)=> {
 export default {authenticateAction};
 ```
 ## Changelog
+
+### v2.1.0:
+
+- React Hook `useSubscription` no place a callback on Store events
+
 
 ### v2.0.0:
 
