@@ -55,7 +55,7 @@ class View extends React.Component {
  * @param store The Flux Store to which the events belongs
  * @param eventName The event on the Flux Store
  * @param initialValue An Initial Value for the state
- * @param callback a function to be called when the subscription gets called
+ * @param callback a function to be called when the subscription gets triggered
  */
 const useFluxStore = (store, eventName, initialValue = null, callback = null) => {
   const [value, setValue] = useState(initialValue);
@@ -75,6 +75,26 @@ const useFluxStore = (store, eventName, initialValue = null, callback = null) =>
   return value;
 };
 
+/**
+ * React Hook to subscribe to an specific event
+ * @param store The Flux Store to which the events belongs
+ * @param eventName The event on the Flux Store
+ * @param callback a function to be called when the subscription gets triggered
+ */
+const useSubscription = (store, eventName, callback) => {
+  if (callback === null || callback === undefined || typeof callback !== 'function')
+    throw new Error(`'callback parameter must be a function`);
+
+  useEffect(() => {
+    const subscription = store.subscribe(eventName, callback);
+    return () => {
+      subscription.unsubscribe();
+    };
+  });
+
+  return value;
+};
+
 
 export default View;
-export {useFluxStore};
+export {useFluxStore, useSubscription, View};
