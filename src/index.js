@@ -91,8 +91,6 @@ const useSubscription = (store, eventName, callback) => {
       subscription.unsubscribe();
     };
   });
-
-  return value;
 };
 
 
