@@ -26,11 +26,15 @@
     "remove-flow-types-loader": "^1.1.0",
     "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-server": "^3.1.10",
+    "mem": ">=4.0.0",
+    "braces": ">=2.3.1"
   },
   "dependencies": {
     "@cobuildlab/flux-state": "1.1.4",
-    "react": "^16.8.6"
+    "react": "^16.8.6",
+    "mem": ">=4.0.0",
+    "braces": ">=2.3.1"
   },
   "jest": {
     "verbose": true,
