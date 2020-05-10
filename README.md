@@ -4,7 +4,7 @@
 
 React bindings to [flux-state](https://github.com/cobuildlab/flux-state) Library
 
-This package ads a `subscribe` method to the standard React Component to avoid the unsubscribe boilerplate from the library, AKA: it does the unsubscribe for you
+This package ads a `subscribe` method to the standard React Component to avoid the unsubscribe boilerplate from the library, AKA: it does the unsubscribe for you.
 
 ## Installation
 
@@ -17,7 +17,41 @@ $ npm i --save-dev @cobuildlab/react-flux-state
 import View, {useFluxStore} from '@cobuildlab/react-flux-state';
 ```
 
-## Let's build a Flux Workflow for authentication
+## Docs
+
+| Object   | Description   | 
+| ------ | ------ | 
+| [`View`](#View) | Subclass of `React.View` that includes a `this.subscribe` method to subscribe to changes on a Store.  | 
+| [`useSubscription`](#useSubscription) | A hook for subscribe to specific events with a callback.  | 
+| [`useEvent`](#useEvent) | A declarative and more powerfull alternative to the `useSubscription`.  | 
+
+
+### `View`
+
+- Allows you to create subscription to stores from Class based components
+- It handles the subscription lifecycle
+
+[`Example`](#Examples)
+
+### `useSubscription(store, eventName, callback)`
+
+- It subscribes to stores from functional components using hooks.
+- It handles the subscription lifecycle
+
+[`Example`](#Examples)
+
+### `useEvent(stire, eventName, initialValue, reducer)`
+
+- It subscribes to stores from functional components using hooks with a declarative approach.
+- It handles the subscription lifecycle
+- It handles initial values for the events
+- It handles a reducer function for the state.
+
+[`Example`](#Examples)
+
+## Examples 
+
+Let's build a Flux Workflow for authentication
 
 ### 1) First, declare your Store
 
@@ -55,7 +89,7 @@ export {sessionStore} ;
 ```js
 import React from 'react';
 import {LOGIN, LOGOUT, sessionStore } from '/path/to/store';
-import View, {useFluxStore} from 'react-flux-state';
+import View, {useSubscription, useEvent} from '@cobuildlab/react-flux-state';
 
 // Class Based
 class View extends View {
@@ -81,10 +115,10 @@ class View extends View {
 // or Functional with React Hooks
 const View = (props) => {
   // Set an Initial Value
-  const loginState = useFluxStore(sessionStore , LOGIN, null);
-  const userState = useFluxStore(sessionStore , USER);
+  const loginState = useEvent(sessionStore , LOGIN);
+  const userState = useEvent(sessionStore , USER, null, (state) => state.user);
   
-  useSubscription(sessionStore , LOGIN_ERROR, () => {
+  useSubscription(sessionStore , LOGIN_ERROR, (state) => {
     // setError
     // toast.error()
   });
@@ -116,6 +150,10 @@ const authenticateAction = (username, password)=> {
 export default {authenticateAction};
 ```
 ## Changelog
+
+### v2.2.0:
+
+- React Hook `useEvent` replaces `useFluxStore`
 
 ### v2.1.0:
 
