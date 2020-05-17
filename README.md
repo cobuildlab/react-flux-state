@@ -1,10 +1,13 @@
 
 
+**##NOTE: This library is not longer going to be maintained. However, the efforts for a simple state management continue here: [react-simple-state](https://github.com/cobuildlab/react-simple-state)**
+
 # React Flux State
 
 React bindings to [flux-state](https://github.com/cobuildlab/flux-state) Library
 
 This package ads a `subscribe` method to the standard React Component to avoid the unsubscribe boilerplate from the library, AKA: it does the unsubscribe for you.
+
 
 ## Installation
 
