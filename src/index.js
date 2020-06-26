@@ -71,7 +71,7 @@ const useFluxStore = (store, eventName, initialValue = null, callback = null) =>
     return () => {
       subscription.unsubscribe();
     };
-  });
+  }, []);
 
   return value;
 };
@@ -96,7 +96,7 @@ const useEvent = (store, eventName, initialValue = null, reducer = null) => {
     return () => {
       subscription.unsubscribe();
     };
-  });
+  }, []);
 
   return value;
 };
@@ -116,7 +116,7 @@ const useSubscription = (store, eventName, callback) => {
     return () => {
       subscription.unsubscribe();
     };
-  });
+  }, []);
 };
 
 
