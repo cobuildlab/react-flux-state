@@ -111,12 +111,20 @@ const useSubscription = (store, eventName, callback) => {
   if (callback === null || callback === undefined || typeof callback !== 'function')
     throw new Error(`'callback parameter must be a function`);
 
+
+  const callbackRef = useRef(callback)
+
+  callbackRef.current = callback
+
   useEffect(() => {
-    const subscription = store.subscribe(eventName, callback);
+    const subCallback = ()=> {
+      callbackRef.current()
+    }
+    const subscription = store.subscribe(eventName, subCallback);
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [eventName, store]);
 };
 
 
