@@ -112,15 +112,18 @@ const useSubscription = (store, eventName, callback) => {
     throw new Error(`'callback parameter must be a function`);
 
 
+  // Store the callback in a ref and update it on every render
   const callbackRef = useRef(callback)
-
   callbackRef.current = callback
 
   useEffect(() => {
-    const subCallback = ()=> {
+    // Subscribe a function that gets the updated version of the callback 
+    const subscriptionCallback = ()=> {
       callbackRef.current()
     }
-    const subscription = store.subscribe(eventName, subCallback);
+
+    const subscription = store.subscribe(eventName, subscriptionCallback);
+
     return () => {
       subscription.unsubscribe();
     };
