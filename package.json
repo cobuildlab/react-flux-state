@@ -1,6 +1,6 @@
 {
   "name": "@cobuildlab/react-flux-state",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "React bindings for flux-state",
   "main": "src/index.js",
   "scripts": {

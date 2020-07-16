@@ -1,4 +1,4 @@
-import React, {useState, useEffect,useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 class View extends React.Component {
 
@@ -118,8 +118,8 @@ const useSubscription = (store, eventName, callback) => {
 
   useEffect(() => {
     // Subscribe a function that gets the updated version of the callback 
-    const subscriptionCallback = ()=> {
-      callbackRef.current()
+    const subscriptionCallback = (eventData)=> {
+      callbackRef.current(eventData)
     }
 
     const subscription = store.subscribe(eventName, subscriptionCallback);
